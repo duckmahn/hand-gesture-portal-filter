@@ -4,36 +4,6 @@ on:
   push:
     branches: [main, dev]
     paths:
-      - 'web/**'
-      - '.github/workflows/deploy-web.yml'
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:proceed? → Push everything except the workflow file for now (Recommended)
-
-  Pushed to dev, ran 1 shell command
-
-Pages is now configured with GitHub Actions as the build source (build_type: workflow, html_url: https://duckmahn.github.io/hand-gesture-portal-filter/). All commits except the workflow file are pushed to origin/dev.
-
-Status: everything is deployed exceptlf, which needs the workflow OAuthscope to push. Two options to finish:
-
-⏺ User answered Claude's questions:
-· How do you want to get the workflow file onto GitHub so Pages actually builds and deploys? → I'll add it via github.com's web UI (Recommended)
-
-Here's how to add it:
-
-1. Go to https://github.com/duckmahn/hand-gesture-portal-filter/new/dev?filename=.github/workflows/deploy-web.yml (this pre-fills the path and branch — should open GitHub's "create new file" editor directly on dev)
-2. Paste the content below into the editor
-3. Scroll down and commit directly to the dev branch
-
-name: Deploy web app to GitHub Pages
-
-on:
-  push:
     branches: [main, dev]
     paths:
       - 'web/**'
