@@ -24,6 +24,7 @@ async function setupCamera() {
   await video.play();
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
+  return stream;
 }
 
 function drawMirroredFrame(baseCanvas) {
@@ -35,8 +36,9 @@ function drawMirroredFrame(baseCanvas) {
 }
 
 async function main() {
+  let stream;
   try {
-    await setupCamera();
+    stream = await setupCamera();
   } catch (err) {
     setStatus('Camera access denied or unavailable. Please allow camera access and reload.');
     return;
@@ -46,6 +48,7 @@ async function main() {
   try {
     tracker = await createHandTracker();
   } catch (err) {
+    stream.getTracks().forEach((t) => t.stop());
     setStatus('Failed to load hand-tracking model. Check your connection and reload.');
     return;
   }
