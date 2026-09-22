@@ -5,3 +5,7 @@ venv/
 screenshots/
 .pytest_cache/
 screenshot_*.png
+
+# Web build artifacts
+web/node_modules/
+web/dist/

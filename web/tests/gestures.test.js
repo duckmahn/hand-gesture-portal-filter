@@ -53,6 +53,19 @@ describe('GestureRecognizer', () => {
     expect(approxEqual(events.portalCenter, [0.5, 0.5])).toBe(true);
   });
 
+  it('uses thumb and index tips in perimeter order regardless of hand detection order', () => {
+    const hands = twoFarApartHands();
+    hands[0][4] = [0.2, 0.8];
+    hands[0][8] = [0.1, 0.2];
+    hands[1][4] = [0.8, 0.7];
+    hands[1][8] = [0.9, 0.1];
+    const rec = new GestureRecognizer();
+    const expected = [[0.1, 0.2], [0.9, 0.1], [0.8, 0.7], [0.2, 0.8]];
+    expect(rec.update(hands, 0).portalCorners).toEqual(expected);
+    expect(rec.update([...hands].reverse(), 1).portalCorners).toEqual(expected);
+    expect(rec.update([hands[0]], 2).portalCorners).toBeNull();
+  });
+
   it('pinch transition triggers cycle once', () => {
     const rec = new GestureRecognizer({ pinchThreshold: 0.06, pinchCooldown: 0.5 });
     const openHand = makeHand({ 4: [0.0, 0.0], 20: [1.0, 1.0] });

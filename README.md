@@ -4,6 +4,11 @@ A real-time webcam filter controlled by hand gestures, inspired by
 [RetroLens](https://github.com/syahdanfx/Retrolens). Spread both hands apart to
 open a "portal" over the video feed; the region inside gets a visual filter.
 
+## Web app
+
+For the browser version, local preview, and GitHub Pages deployment, see
+[web/README.md](web/README.md). No Python server is needed for the web app.
+
 ## Setup
 
     python3 -m venv .venv

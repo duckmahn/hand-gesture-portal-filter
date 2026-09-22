@@ -1,5 +1,6 @@
 const PALM_LANDMARKS = [0, 5, 17];
 const THUMB_TIP = 4;
+const INDEX_TIP = 8;
 const PINKY_TIP = 20;
 
 export function palmCenter(hand) {
@@ -24,6 +25,7 @@ export class GestureRecognizer {
   update(hands, timestamp) {
     let portalActive = false;
     let portalCenter = null;
+    let portalCorners = null;
     let spreadDistance = null;
 
     if (hands.length === 2) {
@@ -31,6 +33,13 @@ export class GestureRecognizer {
       const c1 = palmCenter(hands[1]);
       spreadDistance = distance(c0, c1);
       if (spreadDistance >= this.spreadOpenThreshold) {
+        // Order the four fingertips around their centroid to avoid a crossed outline,
+        // independent of the order in which MediaPipe returns the hands.
+        const tips = hands.flatMap((hand) => [hand[THUMB_TIP], hand[INDEX_TIP]]);
+        const cx = tips.reduce((sum, p) => sum + p[0], 0) / 4;
+        const cy = tips.reduce((sum, p) => sum + p[1], 0) / 4;
+        portalCorners = tips.map((p) => [...p]).sort((a, b) =>
+          Math.atan2(a[1] - cy, a[0] - cx) - Math.atan2(b[1] - cy, b[0] - cx));
         portalActive = true;
         portalCenter = [(c0[0] + c1[0]) / 2, (c0[1] + c1[1]) / 2];
       }
@@ -53,6 +62,6 @@ export class GestureRecognizer {
       if (!seenIndices.has(idx)) this._wasPinching.delete(idx);
     }
 
-    return { portalActive, portalCenter, spreadDistance, cycleFilter };
+    return { portalActive, portalCorners, portalCenter, spreadDistance, cycleFilter };
   }
 }

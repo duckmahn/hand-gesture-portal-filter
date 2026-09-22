@@ -68,14 +68,14 @@ async function main() {
     const hands = rawHands.map((hand) => hand.map(([x, y]) => [1 - x, y]));
 
     const events = recognizer.update(hands, timestampMs / 1000);
-    portal.update(events.portalActive, events.portalCenter, events.spreadDistance);
+    portal.update(events.portalActive, events.portalCorners);
     if (events.cycleFilter) {
       filterIndex = (filterIndex + 1) % FILTERS.length;
     }
 
     if (portal.isVisible) {
       const filteredCanvas = FILTERS[filterIndex](baseCanvas);
-      compositePortal(ctx, baseCanvas, filteredCanvas, portal.center, portal.radiusFrac);
+      compositePortal(ctx, baseCanvas, filteredCanvas, portal.corners, portal.opacity);
     } else {
       ctx.drawImage(baseCanvas, 0, 0);
     }
