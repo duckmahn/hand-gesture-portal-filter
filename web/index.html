@@ -9,8 +9,11 @@
     #stage { position: relative; margin-top: 1rem; }
     video { display: none; }
     canvas { max-width: 100%; border-radius: 8px; }
-    #controls { margin: 1rem; display: flex; gap: 0.5rem; }
+    #controls { margin: 1rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
     button { padding: 0.5rem 1rem; cursor: pointer; }
+    #guide { box-sizing: border-box; width: min(100%, 640px); padding: 0 1rem 2rem; line-height: 1.6; color: #ccc; }
+    #guide h2 { color: #eee; font-size: 1.25rem; }
+    #guide li + li { margin-top: 0.5rem; }
     #status { min-height: 1.5rem; color: #f88; }
   </style>
 </head>
@@ -27,6 +30,16 @@
     <button id="nextBtn">Next filter &rarr;</button>
     <button id="screenshotBtn">Screenshot</button>
   </div>
+  <section id="guide" aria-labelledby="guide-title">
+    <h2 id="guide-title">How to use</h2>
+    <ol>
+      <li><strong>Allow your camera.</strong> Wait for hand tracking to load. Keep both hands visible and use good lighting.</li>
+      <li><strong>Make a frame.</strong> Hold up both hands with your thumbs and index fingers extended, then spread your hands apart. These four fingertips form the corners of the portal.</li>
+      <li><strong>Move the corners.</strong> Move your thumbs and index fingers to resize and reshape the filtered area. Bring your hands together or lower them to close it.</li>
+      <li><strong>Change the filter.</strong> Touch your thumb to your pinky on either hand, then release before pinching again. You can also use the Prev filter and Next filter buttons.</li>
+      <li><strong>Save a picture.</strong> Click Screenshot to download the current view as a PNG.</li>
+    </ol>
+  </section>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>
